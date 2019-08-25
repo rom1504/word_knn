@@ -21,7 +21,7 @@ def csv_to_embeddings_and_dict(input_file):
             if isinstance(line, str):
                 stripped_line = line.rstrip()
             else:
-                stripped_line = line.decode('utf-8').rstrip()
+                stripped_line = line.decode("utf-8", "ignore").rstrip()
             line = stripped_line.split(" ")
             word = line[0].split('_')[0]
             d[i] = word.replace('::', ' ')
@@ -122,4 +122,4 @@ def from_nlpl(root_word_embedding_dir=home + "/embeddings", embedding_id="0", sa
         zipfile.extract("model.txt", word_embedding_dir)
         zipfile.close()
 
-    return from_csv_or_cache(word_embedding_dir, open(word_embedding_dir + "/model.txt", "r"))
+    return from_csv_or_cache(word_embedding_dir, open(word_embedding_dir + "/model.txt", "rb"))
