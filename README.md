@@ -12,7 +12,7 @@ then :
 
 ```bash
 conda activate base
-conda install -c pytorch -c rom1504 word_knn
+conda install -c pytorch -c rom1504 -c conda-forge word_knn
 ```
 
 ## Usage
@@ -24,22 +24,24 @@ Just run `python -m word_knn --word "cat"`
 Details :
 ```bash
 $ python -m word_knn --help
-usage: python -m word_knn [-h] [--word WORD]
+usage: python -m word_knn [-h] [--word WORD] [--count COUNT]
                    [--root_embeddings_dir ROOT_EMBEDDINGS_DIR]
                    [--embeddings_id EMBEDDINGS_ID] [--save_zip SAVE_ZIP]
+                   [--serve SERVE]
 
 Find closest words.
 
 optional arguments:
   -h, --help            show this help message and exit
   --word WORD           word
+  --count COUNT         number of nearest neighboors
   --root_embeddings_dir ROOT_EMBEDDINGS_DIR
                         dir to save embeddings
   --embeddings_id EMBEDDINGS_ID
                         word embeddings id from
                         http://vectors.nlpl.eu/repository/
   --save_zip SAVE_ZIP   save the zip (default false)
-
+  --serve SERVE         serve http API to get nearest words
 ```
 
 ### Python interface
@@ -81,12 +83,12 @@ print(closest_words.closest_words("cat", 10))
 ```bash
 conda create -n wordknn python=3
 conda activate wordknn
-conda install faiss-cpu numpy -c pytorch
+conda install faiss-cpu numpy flask flask-restful -c pytorch -c conda-forge
 ```
 
 ### Rebuild the conda package
 
 run 
 ```bash
-conda build -c pytorch .
+conda build -c pytorch -c conda-forge .
 ```

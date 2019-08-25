@@ -8,6 +8,7 @@ source:
 extra:
   channels:
     - pytorch
+    - conda-forge
 
 build:
   entry_points:
@@ -19,6 +20,8 @@ requirements:
     - setuptools
     - faiss-cpu
     - numpy
+    - flask
+    - flask-restful
 
   run:
     - python
