@@ -1,7 +1,9 @@
 # word_knn
 [![Discord](https://img.shields.io/badge/install-from%20conda-brightgreen.svg)](https://anaconda.org/rom1504/word_knn)
 
-Quickly find closest words using an efficient knn and word embeddings
+Quickly find closest words using an efficient knn and word embeddings. Uses :
+* [faiss](https://github.com/facebookresearch/faiss) for an efficient knn implementation
+* [nlpl word embeddings](http://vectors.nlpl.eu/repository/) for quality word embeddings
 
 ## Installation
 
