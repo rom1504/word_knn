@@ -87,6 +87,8 @@ def from_csv_or_cache(word_embedding_dir, input_file=None):
 
 
 def from_nlpl(root_word_embedding_dir=home+"/embeddings", embedding_id="0", save_zip=False):
+    if not os.path.exists(root_word_embedding_dir):
+        os.mkdir(root_word_embedding_dir)
     word_embedding_dir = root_word_embedding_dir + '/' + embedding_id
     if not os.path.exists(word_embedding_dir):
         os.mkdir(word_embedding_dir)
