@@ -1,3 +1,6 @@
+## 1.0.2
+* create root dir if doesn't exist
+
 ## 1.0.1
 * word-knn -> word_knn
 
