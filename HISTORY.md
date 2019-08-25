@@ -1,3 +1,8 @@
+## 1.1.0
+* http api
+* fix utf-8 issue
+* fix embeddings size issue
+
 ## 1.0.3
 * reduce ram usage
 
