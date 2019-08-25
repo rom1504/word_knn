@@ -17,8 +17,8 @@ def main():
 
     args = parser.parse_args()
 
-    closestWords = from_nlpl(args.root_embeddings_dir, args.embeddings_id, args.save_zip)
-    print(closestWords.closest_words(args.word, args.count))
+    closest_words = from_nlpl(args.root_embeddings_dir, args.embeddings_id, args.save_zip)
+    print(closest_words.closest_words(args.word, args.count))
 
 
 if __name__ == '__main__':
