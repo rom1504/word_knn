@@ -16,7 +16,7 @@ setup(
     long_description=readme,
     author='Romain Beaumont',
     author_email='romain.rom1@gmail.com',
-    url='https://github.com/rom1504/word-knn',
+    url='https://github.com/rom1504/word_knn',
     license=license,
     packages=find_packages(exclude=('tests')),
     entry_points={
