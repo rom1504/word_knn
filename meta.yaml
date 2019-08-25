@@ -27,6 +27,8 @@ requirements:
     - python
     - faiss-cpu
     - numpy
+    - flask
+    - flask-restful
 
 about:
   home:
