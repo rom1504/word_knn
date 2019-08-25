@@ -1,3 +1,6 @@
+## 1.0.3
+* reduce ram usage
+
 ## 1.0.2
 * create root dir if doesn't exist
 
