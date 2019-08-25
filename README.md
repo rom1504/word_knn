@@ -9,6 +9,7 @@ First install python3 and [Miniconda](https://docs.conda.io/projects/conda/en/la
 then :
 
 ```bash
+conda activate base
 conda install -c pytorch -c rom1504 word_knn
 ```
 
