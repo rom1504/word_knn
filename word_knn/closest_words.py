@@ -8,7 +8,7 @@ def inverse_dict(d):
 
 
 def build_knn_index(embeddings):
-    index = faiss.IndexFlatL2(300)
+    index = faiss.IndexFlatL2(embeddings.shape[1])
     index.add(embeddings)
     return index
 
