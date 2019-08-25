@@ -1,3 +1,9 @@
+## 1.1.2
+* serve listen on all addresses
+
+## 1.1.1
+* add missing flask deps
+
 ## 1.1.0
 * http api
 * fix utf-8 issue
