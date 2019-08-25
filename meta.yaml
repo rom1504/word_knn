@@ -1,0 +1,30 @@
+package:
+  name: word_knn
+  version: 1.0.0
+
+source:
+  path: .
+
+extra:
+  channels:
+    - pytorch
+
+build:
+  entry_points:
+    - word_knn = word_knn.__main__:main
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - faiss-cpu
+    - numpy
+
+  run:
+    - python
+    - faiss-cpu
+    - numpy
+
+about:
+  home:
+    https://github.com/rom1504/word-knn
