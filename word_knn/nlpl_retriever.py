@@ -8,6 +8,7 @@ from word_knn.closest_words import inverse_dict
 from word_knn.closest_words import ClosestWords
 from word_knn.closest_words import build_knn_index
 from pathlib import Path
+
 home = str(Path.home())
 
 
@@ -71,6 +72,7 @@ def sizeof_fmt(num, suffix='B'):
 
 
 def from_csv(input_file):
+    print("Reading file")
     embeddings, word_dict, inverse_word_dict = csv_to_embeddings_and_dict(input_file)
     knn_index = build_knn_index(embeddings)
     return ClosestWords(embeddings, inverse_word_dict, word_dict, knn_index)
@@ -86,7 +88,7 @@ def from_csv_or_cache(word_embedding_dir, input_file=None):
     return closest_words
 
 
-def from_nlpl(root_word_embedding_dir=home+"/embeddings", embedding_id="0", save_zip=False):
+def from_nlpl(root_word_embedding_dir=home + "/embeddings", embedding_id="0", save_zip=False):
     if not os.path.exists(root_word_embedding_dir):
         os.mkdir(root_word_embedding_dir)
     word_embedding_dir = root_word_embedding_dir + '/' + embedding_id
@@ -98,19 +100,26 @@ def from_nlpl(root_word_embedding_dir=home+"/embeddings", embedding_id="0", save
 
     zip_file_path = word_embedding_dir + "/model.zip"
 
-    if os.path.exists(zip_file_path):
-        zipfile = ZipFile(zip_file_path, "r")
-    else:
-        url = "http://vectors.nlpl.eu/repository/11/" + embedding_id + ".zip"
+    if not os.path.exists(word_embedding_dir + "/model.txt"):
+        if os.path.exists(zip_file_path):
+            zipfile = ZipFile(zip_file_path, "r")
+        else:
+            url = "http://vectors.nlpl.eu/repository/11/" + embedding_id + ".zip"
 
-        resp = urlopen(url)
-        length = resp.getheader('content-length')
-        print('Downloading ' + url + ' (' + sizeof_fmt(int(length)) + ')')
-        content = resp.read()
-        if save_zip:
-            file = open(word_embedding_dir + "/model.zip", "wb")
-            file.write(content)
-            file.close()
-        zipfile = ZipFile(BytesIO(content))
+            resp = urlopen(url)
+            length = resp.getheader('content-length')
+            print('Downloading ' + url + ' (' + sizeof_fmt(int(length)) + ')')
+            content = resp.read()
+            del resp
+            if save_zip:
+                file = open(word_embedding_dir + "/model.zip", "wb")
+                file.write(content)
+                file.close()
+            the_bytes = BytesIO(content)
+            zipfile = ZipFile(the_bytes)
+            del content
+            del the_bytes
+        zipfile.extract("model.txt", word_embedding_dir)
+        zipfile.close()
 
-    return from_csv_or_cache(word_embedding_dir, iter(zipfile.open("model.txt").readlines()))
+    return from_csv_or_cache(word_embedding_dir, open(word_embedding_dir + "/model.txt", "r"))
