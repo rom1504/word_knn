@@ -21,6 +21,9 @@ class ClosestWords:
         self.knn_index = knn_index
 
     def closest_words(self, word, k):
+        if word not in self.inverse_word_dict:
+            return None
+
         emb = self.embeddings[self.inverse_word_dict[word]]
         words = np.array([emb])
         distances, indices = self.knn_index.search(words, k)
