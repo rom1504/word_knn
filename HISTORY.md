@@ -1,3 +1,6 @@
+## 1.1.3
+* check if word is in dict to avoid crashes
+
 ## 1.1.2
 * serve listen on all addresses
 
