@@ -1,3 +1,6 @@
+## 1.2.0
+* add distance option in api and http api
+
 ## 1.1.3
 * check if word is in dict to avoid crashes
 

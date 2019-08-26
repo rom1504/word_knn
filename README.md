@@ -62,7 +62,7 @@ print(closest_words.closest_words("cat", 10))
 The word dictionary, embeddings and knn index are then cached. Second run will be much faster.
 
 
-If you have limited ram, you can also download and extract the embeddings yourself with this :
+You can also download and extract the embeddings yourself with this :
 ```
 mkdir -p ~/embeddings/0
 cd ~/embeddings/0
