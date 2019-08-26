@@ -20,14 +20,17 @@ class ClosestWords:
         self.word_dict = word_dict
         self.knn_index = knn_index
 
-    def closest_words(self, word, k):
+    def closest_words(self, word, k, with_distances = False):
         if word not in self.inverse_word_dict:
             return None
 
         emb = self.embeddings[self.inverse_word_dict[word]]
         words = np.array([emb])
         distances, indices = self.knn_index.search(words, k)
-        return [self.word_dict[found_index] for found_index in indices[0]]
+        if with_distances:
+            return [(self.word_dict[found_index], float(distance)) for found_index, distance in zip(indices[0], distances[0])]
+        else:
+            return [self.word_dict[found_index] for found_index in indices[0]]
 
     @staticmethod
     def from_disk_cache(cache_dir):

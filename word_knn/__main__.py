@@ -12,6 +12,7 @@ def main():
     parser = argparse.ArgumentParser(description='Find closest words.')
     parser.add_argument('--word', help='word', type=str, default="cat")
     parser.add_argument('--count', help='number of nearest neighboors', type=int, default=10)
+    parser.add_argument('--with_distances', help='display distance to words', type=bool, default=False)
     parser.add_argument('--root_embeddings_dir', help='dir to save embeddings', type=str, default=home + "/embeddings")
     parser.add_argument('--embeddings_id', help='word embeddings id from http://vectors.nlpl.eu/repository/', type=str,
                         default="0")
@@ -28,10 +29,20 @@ def main():
         api = Api(app)
 
         class NearestWords(Resource):
-            def get(self, word, count):
-                return closest_words.closest_words(word, count)
+            def get(self, word, count, with_distances):
+                return closest_words.closest_words(word, count, with_distances == "distance")
 
-        api.add_resource(NearestWords, '/<string:word>/<int:count>')
+        class NearestWordsSimple(Resource):
+            def get(self, word, count=10):
+                return closest_words.closest_words(word, count, False)
+
+        class NearestWordsSimpleCount(Resource):
+            def get(self, word, count):
+                return closest_words.closest_words(word, count, False)
+
+        api.add_resource(NearestWordsSimple, '/<string:word>')
+        api.add_resource(NearestWordsSimpleCount, '/<string:word>/<int:count>')
+        api.add_resource(NearestWords, '/<string:word>/<int:count>/<string:with_distances>')
         print("Go to http://127.0.0.1:5000/dog/10")
         app.run(host="0.0.0.0")
 
