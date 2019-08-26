@@ -88,7 +88,17 @@ conda install faiss-cpu numpy flask flask-restful -c pytorch -c conda-forge
 
 ### Rebuild the conda package
 
+First do a `conda install conda-build anaconda-client`, then :
+
 run 
 ```bash
 conda build -c pytorch -c conda-forge .
 ```
+
+## FAQ
+
+#### I'm getting `Illegal instruction (core dumped)`
+
+It means your CPU doesn't support some recent instructions.
+Install an older version of faiss `conda install faiss-cpu=1.5.1 -c pytorch -y`
+For details, see https://github.com/facebookresearch/faiss/issues/885
