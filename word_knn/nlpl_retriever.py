@@ -98,7 +98,7 @@ def from_nlpl(root_word_embedding_dir=home+"/embeddings", embedding_id="0", save
         os.mkdir(word_embedding_dir)
 
     if os.path.exists(word_embedding_dir + '/word_dict.pkl'):
-        return ClosestWords.from_disk_cache(word_embedding_dir)
+        return ClosestWords.from_disk_cache(word_embedding_dir, keep_embeddings)
 
     zip_file_path = word_embedding_dir + "/model.zip"
 
