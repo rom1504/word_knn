@@ -71,31 +71,33 @@ def sizeof_fmt(num, suffix='B'):
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
 
-def from_csv(input_file):
-    print("Reading file")
+def from_csv(input_file, keep_embeddings=True):
     embeddings, word_dict, inverse_word_dict = csv_to_embeddings_and_dict(input_file)
     knn_index = build_knn_index(embeddings)
+    if not keep_embeddings:
+        embeddings = None
     return ClosestWords(embeddings, inverse_word_dict, word_dict, knn_index)
 
 
-def from_csv_or_cache(word_embedding_dir, input_file=None):
+def from_csv_or_cache(word_embedding_dir, input_file=None, keep_embeddings=False):
     if input_file is None:
         input_file = word_embedding_dir + "/model.txt"
-    if os.path.exists(word_embedding_dir + '/embeddings.npy'):
+    if os.path.exists(word_embedding_dir + '/word_dict.pkl'):
         return ClosestWords.from_disk_cache(word_embedding_dir)
-    closest_words = from_csv(input_file)
+    closest_words = from_csv(input_file, True)
     closest_words.cache_to_disk(word_embedding_dir)
+    if not keep_embeddings:
+        del closest_words.embeddings
     return closest_words
 
 
-def from_nlpl(root_word_embedding_dir=home + "/embeddings", embedding_id="0", save_zip=False):
-    if not os.path.exists(root_word_embedding_dir):
-        os.mkdir(root_word_embedding_dir)
+def from_nlpl(root_word_embedding_dir=home+"/embeddings", embedding_id="0", save_zip=False,
+              keep_embeddings=False):
     word_embedding_dir = root_word_embedding_dir + '/' + embedding_id
     if not os.path.exists(word_embedding_dir):
         os.mkdir(word_embedding_dir)
 
-    if os.path.exists(word_embedding_dir + '/embeddings.npy'):
+    if os.path.exists(word_embedding_dir + '/word_dict.pkl'):
         return ClosestWords.from_disk_cache(word_embedding_dir)
 
     zip_file_path = word_embedding_dir + "/model.zip"
@@ -122,4 +124,4 @@ def from_nlpl(root_word_embedding_dir=home + "/embeddings", embedding_id="0", sa
         zipfile.extract("model.txt", word_embedding_dir)
         zipfile.close()
 
-    return from_csv_or_cache(word_embedding_dir, open(word_embedding_dir + "/model.txt", "rb"))
+    return from_csv_or_cache(word_embedding_dir, open(word_embedding_dir + "/model.txt", "rb"), keep_embeddings)
