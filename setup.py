@@ -11,7 +11,7 @@ with open('LICENSE') as f:
 
 setup(
     name='word_knn',
-    version='1.2.0',
+    version='1.3.0',
     description='Quickly find closest words using an efficient knn and word embeddings',
     long_description=readme,
     author='Romain Beaumont',

@@ -1,3 +1,6 @@
+## 1.3.0
+* add option not to keep embeddings in memory
+
 ## 1.2.0
 * add distance option in api and http api
 
