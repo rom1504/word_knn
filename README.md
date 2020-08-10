@@ -6,6 +6,8 @@ Quickly find closest words using an efficient knn and word embeddings. Uses :
 * [faiss](https://github.com/facebookresearch/faiss) for an efficient knn implementation
 * [nlpl word embeddings](http://vectors.nlpl.eu/repository/) for quality word embeddings
 
+To start quickly, you may start with the [colab notebook](https://colab.research.google.com/github/rom1504/word_knn/blob/master/notebooks/getting_started.ipynb)
+
 ## Installation
 
 First install python3
@@ -56,7 +58,9 @@ you can also use id 0 which is smaller
 You can then run this to get some closest words. This will automatically download and extract the embeddings.
 ```python
 from word_knn import from_nlpl
-closest_words = from_nlpl("/home/rom1504/embeddings", "0", False)
+from pathlib import Path
+home = str(Path.home())
+closest_words = from_nlpl(home + "/embeddings", "0", False)
 print(closest_words.closest_words("cat", 10))
 ```
 The word dictionary, embeddings and knn index are then cached. Second run will be much faster.
@@ -71,7 +75,8 @@ unzip 0.zip
 ```
 ```python
 from word_knn import from_csv_or_cache
-closest_words = from_csv_or_cache("/home/rom1504/embeddings/0")
+home = str(Path.home())
+closest_words = from_csv_or_cache(home+"/embeddings/0")
 
 print(closest_words.closest_words("cat", 10))
 ```
