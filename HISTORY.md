@@ -1,3 +1,6 @@
+## 1.4.0
+* move to pypi
+
 ## 1.3.0
 * add option not to keep embeddings in memory
 
