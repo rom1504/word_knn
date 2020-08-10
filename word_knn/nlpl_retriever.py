@@ -23,8 +23,8 @@ def csv_to_embeddings_and_dict(input_file):
             else:
                 stripped_line = line.decode("utf-8", "ignore").rstrip()
             line = stripped_line.split(" ")
-            word = line[0].split('_')[0]
-            d[i] = word.replace('::', ' ')
+            word = line[0].split("_")[0]
+            d[i] = word.replace("::", " ")
             line.pop(0)
             for item in line:
                 yield float(item)
@@ -33,7 +33,7 @@ def csv_to_embeddings_and_dict(input_file):
     def iter_func():
         csv_to_embeddings_and_dict.rowlength = 0
         if isinstance(input_file, str):
-            with open(input_file, 'r') as infile:
+            with open(input_file, "r") as infile:
                 yield from read_func(infile)
         else:
             yield from read_func(input_file)
@@ -51,11 +51,11 @@ def csv_to_dict(input_file):
     def read(iter):
         next(iter)  # skip first row
         for i, line in enumerate(iter):
-            line = line.rstrip().split('_')
-            d[i] = line[0].replace('::', ' ')
+            line = line.rstrip().split("_")
+            d[i] = line[0].replace("::", " ")
 
     if isinstance(input_file, str):
-        with open(input_file, 'r') as infile:
+        with open(input_file, "r") as infile:
             read(infile)
     else:
         read(input_file)
@@ -63,12 +63,12 @@ def csv_to_dict(input_file):
     return d, inv_d
 
 
-def sizeof_fmt(num, suffix='B'):
-    for unit in ['', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi']:
+def sizeof_fmt(num, suffix="B"):
+    for unit in ["", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi"]:
         if abs(num) < 1024.0:
             return "%3.1f%s%s" % (num, unit, suffix)
         num /= 1024.0
-    return "%.1f%s%s" % (num, 'Yi', suffix)
+    return "%.1f%s%s" % (num, "Yi", suffix)
 
 
 def from_csv(input_file, keep_embeddings=True):
@@ -82,7 +82,7 @@ def from_csv(input_file, keep_embeddings=True):
 def from_csv_or_cache(word_embedding_dir, input_file=None, keep_embeddings=False):
     if input_file is None:
         input_file = word_embedding_dir + "/model.txt"
-    if os.path.exists(word_embedding_dir + '/word_dict.pkl'):
+    if os.path.exists(word_embedding_dir + "/word_dict.pkl"):
         return ClosestWords.from_disk_cache(word_embedding_dir)
     closest_words = from_csv(input_file, True)
     closest_words.cache_to_disk(word_embedding_dir)
@@ -91,13 +91,12 @@ def from_csv_or_cache(word_embedding_dir, input_file=None, keep_embeddings=False
     return closest_words
 
 
-def from_nlpl(root_word_embedding_dir=home+"/embeddings", embedding_id="0", save_zip=False,
-              keep_embeddings=False):
-    word_embedding_dir = root_word_embedding_dir + '/' + embedding_id
+def from_nlpl(root_word_embedding_dir=home + "/embeddings", embedding_id="0", save_zip=False, keep_embeddings=False):
+    word_embedding_dir = root_word_embedding_dir + "/" + embedding_id
     if not os.path.exists(word_embedding_dir):
-        os.mkdir(word_embedding_dir)
+        os.makedirs(word_embedding_dir)
 
-    if os.path.exists(word_embedding_dir + '/word_dict.pkl'):
+    if os.path.exists(word_embedding_dir + "/word_dict.pkl"):
         return ClosestWords.from_disk_cache(word_embedding_dir, keep_embeddings)
 
     zip_file_path = word_embedding_dir + "/model.zip"
@@ -109,8 +108,8 @@ def from_nlpl(root_word_embedding_dir=home+"/embeddings", embedding_id="0", save
             url = "http://vectors.nlpl.eu/repository/11/" + embedding_id + ".zip"
 
             resp = urlopen(url)
-            length = resp.getheader('content-length')
-            print('Downloading ' + url + ' (' + sizeof_fmt(int(length)) + ')')
+            length = resp.getheader("content-length")
+            print("Downloading " + url + " (" + sizeof_fmt(int(length)) + ")")
             content = resp.read()
             del resp
             if save_zip:

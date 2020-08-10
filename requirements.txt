@@ -1,0 +1,4 @@
+faiss-cpu-noavx2==1.6.3
+numpy
+flask
+flask-restful

@@ -1,5 +1,6 @@
 # word_knn
-[![Discord](https://img.shields.io/badge/install-from%20conda-brightgreen.svg)](https://anaconda.org/rom1504/word_knn)
+[![pypi](https://img.shields.io/pypi/v/word_knn.svg)](https://pypi.python.org/pypi/word_knn)
+[![ci](https://github.com/rom1504/word_knn/workflows/Continuous%20integration/badge.svg)](https://github.com/rom1504/word_knn/actions?query=workflow%3A%22Continuous+integration%22)
 
 Quickly find closest words using an efficient knn and word embeddings. Uses :
 * [faiss](https://github.com/facebookresearch/faiss) for an efficient knn implementation
@@ -7,12 +8,11 @@ Quickly find closest words using an efficient knn and word embeddings. Uses :
 
 ## Installation
 
-First install python3 and [Miniconda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html)
+First install python3
 then :
 
 ```bash
-conda activate base
-conda install -c pytorch -c rom1504 -c conda-forge word_knn
+pip install word_knn
 ```
 
 ## Usage
@@ -78,27 +78,55 @@ print(closest_words.closest_words("cat", 10))
 
 ## Development
 
-### Create an environment
+### Prerequisites
 
-```bash
-conda create -n wordknn python=3
-conda activate wordknn
-conda install faiss-cpu numpy flask flask-restful -c pytorch -c conda-forge
-```
+Make sure you use `python>=3.6` and an up-to-date version of `pip` and
+`setuptools`
 
-### Rebuild the conda package
+    python --version
+    pip install -U pip setuptools
 
-First do a `conda install conda-build anaconda-client`, then :
+It is recommended to install `word_knn` in a new virtual environment. For
+example
 
-run 
-```bash
-conda build -c pytorch -c conda-forge .
-```
+    python3 -m venv word_knn_env
+    source word_knn_env/bin/activate
+    pip install -U pip setuptools
+    pip install word_knn
 
-## FAQ
+### Using Pip
 
-#### I'm getting `Illegal instruction (core dumped)`
+    pip install word_knn
 
-It means your CPU doesn't support some recent instructions.
-Install an older version of faiss `conda install faiss-cpu=1.5.1 -c pytorch -y`
-For details, see https://github.com/facebookresearch/faiss/issues/885
+### From Source
+
+First, clone the `word_knn` repo on your local machine with
+
+    git clone https://github.com/rom1504/word_knn.git
+    cd word_knn
+    make install
+
+To install development tools and test requirements, run
+
+    make install-dev
+
+## Test
+
+To run unit tests in your current environment, run
+
+    make test
+
+To run lint + unit tests in a fresh virtual environment,
+run
+
+    make venv-lint-test
+
+## Lint
+
+To run `black --check`:
+
+    make lint
+
+To auto-format the code using `black`
+
+    make black

@@ -31,8 +31,10 @@ class ClosestWords:
         words = np.array([emb])
         distances, indices = self.knn_index.search(words, k)
         if with_distances:
-            return [(self.word_dict[found_index], float(distance)) for found_index, distance in
-                    zip(indices[0], distances[0])]
+            return [
+                (self.word_dict[found_index], float(distance))
+                for found_index, distance in zip(indices[0], distances[0])
+            ]
         else:
             return [self.word_dict[found_index] for found_index in indices[0]]
 
@@ -46,7 +48,7 @@ class ClosestWords:
         word_dict = pickle.load(pickle_in)
         inverse_word_dict = inverse_dict(word_dict)
         if load_knn_index:
-            knn_index=faiss.read_index(cache_dir + "/knn_index")
+            knn_index = faiss.read_index(cache_dir + "/knn_index")
         else:
             knn_index = build_knn_index(embeddings)
         return ClosestWords(embeddings, inverse_word_dict, word_dict, knn_index)
